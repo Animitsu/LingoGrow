@@ -22,6 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.animitsu.lingogrow.Activity_Language_Menu" />
     </application>
 
 </manifest>
