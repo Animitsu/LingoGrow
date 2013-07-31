@@ -27,21 +27,14 @@ public class Activity_Splash extends Activity
 	    	@Override
 	    	public void run()
 	    	{
-		    	Intent intent = new Intent();
-		    	//if the language is set then show the lesson, if not show the language menu
-		    	if(isLanguageSet())
-		    		intent.setClass(Activity_Splash.this, Activity_Lesson_Menu.class);
-		    	else
-		    		intent.setClass(Activity_Splash.this, Activity_Language_Menu.class);
-		    	
-		    	startActivity(intent);
+	    		setupSystem();
 		    	//kill the activity so if the back button is pressed we don't show the splash
 		    	finish();
 	    	}	
     	}, SPLASH_DURATION);
     }
 
-    public boolean isLanguageSet()
+    public void setupSystem()
     {
     	//TODO start the download of the language files
     	SharedPreferences sharedpreferences = getSharedPreferences("LingoGrow",   MODE_PRIVATE);
@@ -54,22 +47,26 @@ public class Activity_Splash extends Activity
     		{
             	if(Folder_Functions.folderExists("LingoGrow/" + sharedpreferences.getString("language", "en")))
             	{
-            		return true;
+            		showLessonMenu();
             	}
             	else
             	{
             		//we have a language set but no language folder
             		if(Folder_Functions.createFolder("LingoGrow/" + sharedpreferences.getString("language", "en")))
-            			return true;
+            		{
+            			showLessonMenu();
+            		}
             		else
-            			//TODO bail folder could not be created
-            			return false;
+            		{
+            			//bail folder could not be created
+            			showError("Folder could not be created.");
+            		}
             	}
     		}
     		else
     		{
     			//language hasnt been set, base directory exists
-    			return false;
+    			showLanguageMenu();
     		}
     		
     	}
@@ -77,12 +74,35 @@ public class Activity_Splash extends Activity
     	{
     		//create the base directory
     		if(Folder_Functions.createFolder("LingoGrow"))
+    		{
     			//recurse if the base folder is successfully created
-    			return isLanguageSet();
+    			setupSystem();
+    		}
     		else
-    			//TODO bail folder could not be created
-    			return false;
+    		{
+    			//bail folder could not be created
+    			showError("Folder could not be created.");
+    		}
     	}
+    }
+    
+    public void showLanguageMenu()
+    {
+    	Intent intent = new Intent(Activity_Splash.this, Activity_Language_Menu.class);
+		startActivity(intent);
+    }
+    
+    public void showLessonMenu()
+    {
+    	Intent intent = new Intent(Activity_Splash.this, Activity_Lesson_Menu.class);
+		startActivity(intent);
+    }
+    
+    public void showError(String msg)
+    {
+    	Intent intent = new Intent(Activity_Splash.this, Activity_Error.class);
+		intent.putExtra("error", msg);
+		startActivity(intent);
     }
 
     @Override

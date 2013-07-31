@@ -3,6 +3,7 @@ package com.animitsu.lingogrow.utils;
 import java.io.File;
 
 import android.os.Environment;
+import android.util.Log;
 
 public class Folder_Functions 
 {
@@ -19,7 +20,7 @@ public class Folder_Functions
 	public static boolean createFolder(String folderPath)
 	{
 		File file = new File(Environment.getExternalStorageDirectory(), "/" + folderPath);
-		//make sure the folder doesnt already exists
+		//make sure the folder doesn't already exists
 	    if (!file.exists()) 
 	    {
 	        if (!file.mkdirs()) 

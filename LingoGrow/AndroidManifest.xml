@@ -25,6 +25,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.animitsu.lingogrow.Activity_Language_Menu" />
+        <activity android:name="com.animitsu.lingogrow.Activity_Lesson_Menu" />
+        <activity android:name="com.animitsu.lingogrow.Activity_Error" />
     </application>
 
 </manifest>
